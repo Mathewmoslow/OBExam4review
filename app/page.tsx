@@ -18,7 +18,6 @@ import {
   Play,
   ChevronRight,
   Star,
-  TrendingUp,
   Shield,
   Clock
 } from 'lucide-react';
@@ -29,6 +28,7 @@ import ParticleBackground from '@/components/ParticleBackground';
 import FloatingCards from '@/components/FloatingCards';
 import InteractiveStats from '@/components/InteractiveStats';
 import TestimonialCarousel from '@/components/TestimonialCarousel';
+
 
 gsap.registerPlugin(ScrollTrigger);
 

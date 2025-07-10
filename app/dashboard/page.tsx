@@ -11,7 +11,6 @@ import {
   Brain, 
   Clock, 
   Target,
-  TrendingUp,
   BookOpen,
   Zap,
   Calendar,

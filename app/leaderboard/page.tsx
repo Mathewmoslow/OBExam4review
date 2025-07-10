@@ -9,7 +9,6 @@ import {
   Trophy, 
   Medal, 
   Crown,
-  TrendingUp,
   Star,
   Users,
   Calendar,

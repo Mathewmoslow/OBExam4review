@@ -12,7 +12,6 @@ import {
   Trophy, 
   Lock,
   CheckCircle,
-  TrendingUp,
   Users,
   Star,
   ChevronRight,
