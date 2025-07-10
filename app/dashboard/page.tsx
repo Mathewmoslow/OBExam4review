@@ -16,7 +16,7 @@ import {
   Zap,
   Calendar,
   ChevronRight,
-  Fire,
+  Flame,
   Star,
   Award
 } from 'lucide-react';
@@ -439,7 +439,7 @@ export default function DashboardPage() {
           >
             <StatHeader>
               <StatIcon>
-                <Fire />
+                <Flame />
               </StatIcon>
               <StudyStreak streak={userStats.studyStreak} />
             </StatHeader>

@@ -25,7 +25,9 @@
     "paths": {
       "@/*": [
         "./*"
-      ]
+      ],
+      "@react-three/fiber": ["./lib/react-three-fiber.tsx"],
+      "@react-three/drei": ["./lib/react-three-drei.tsx"]
     },
     "target": "ES2017"
   },
