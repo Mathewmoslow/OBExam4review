@@ -1,20 +1,18 @@
 // components/EmergencySimulation.tsx
 // @ts-nocheck
 'use client';
-/// <reference types="@react-three/fiber" />
+<reference types="@react-three/fiber" />
 
 import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Canvas } from '@react-three/fiber';
-import { 
-  OrbitControls, 
-  Environment, 
-  Text3D, 
-  Center,
-  Float,
-  PerspectiveCamera
-} from '@react-three/drei';
+import { PerspectiveCamera } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei';
+import { Environment } from '@react-three/drei';
+import { Text3D } from '@react-three/drei';
+import { Center } from '@react-three/drei';
+import { Float } from '@react-three/drei';
 import * as THREE from 'three';
 import { 
   AlertTriangle, 

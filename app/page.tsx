@@ -29,6 +29,7 @@ import FloatingCards from '@/components/FloatingCards';
 import InteractiveStats from '@/components/InteractiveStats';
 import TestimonialCarousel from '@/components/TestimonialCarousel';
 
+
 gsap.registerPlugin(ScrollTrigger);
 
 const Container = styled.div`
