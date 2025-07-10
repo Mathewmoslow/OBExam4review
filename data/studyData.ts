@@ -181,3 +181,55 @@ export const achievements = [
     xp: 100,
   },
 ];
+
+export interface QuizQuestion {
+  id: string;
+  question: string;
+  options: string[];
+  correctAnswer: number;
+  rationale: string;
+}
+
+export const quizQuestions: QuizQuestion[] = [
+  {
+    id: 'q1',
+    question: 'What is the typical time frame for precipitous labor?',
+    options: ['Less than 3 hours', '3-6 hours', '6-12 hours', 'More than 12 hours'],
+    correctAnswer: 0,
+    rationale: 'Precipitous labor is usually completed in under 3 hours.'
+  },
+  {
+    id: 'q2',
+    question: 'Which medication is commonly given for PROM to enhance fetal lung maturity?',
+    options: ['Magnesium sulfate', 'Betamethasone', 'Oxytocin', 'Indomethacin'],
+    correctAnswer: 1,
+    rationale: 'Betamethasone is a corticosteroid that promotes lung maturity.'
+  },
+  {
+    id: 'q3',
+    question: 'A postpartum patient reports feelings of hopelessness and inability to care for her newborn. Which condition is most likely?',
+    options: ['Baby blues', 'Postpartum depression', 'Euphoria', 'Postpartum psychosis'],
+    correctAnswer: 1,
+    rationale: 'Persistent hopelessness is characteristic of postpartum depression.'
+  }
+];
+
+export interface EmergencyScenario {
+  id: string;
+  title: string;
+  description: string;
+  timeLimit: number;
+  initialVitals?: Record<string, number>;
+  decisions?: any[];
+}
+
+export const emergencyScenarios: EmergencyScenario[] = [
+  {
+    id: 'e1',
+    title: 'Shoulder Dystocia',
+    description: 'Manage an impacted shoulder during delivery',
+    timeLimit: 180,
+    initialVitals: { hr: 120, bp: 90 },
+    decisions: []
+  }
+];

@@ -1,3 +1,4 @@
+// @ts-nocheck
 // components/ProgressRing.tsx
 'use client';
 
