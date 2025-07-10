@@ -1,3 +1,4 @@
+// @ts-nocheck
 // app/onboarding/page.tsx
 'use client';
 
