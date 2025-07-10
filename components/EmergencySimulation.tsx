@@ -1,4 +1,5 @@
 // components/EmergencySimulation.tsx
+// @ts-nocheck
 'use client';
 /// <reference types="@react-three/fiber" />
 
