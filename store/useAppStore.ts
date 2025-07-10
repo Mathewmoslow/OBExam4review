@@ -1,25 +1,40 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-interface UserProgress {
-  completedModules: string[];
-  completedTopics: string[];
-  quizScores: Record<string, number>;
-  totalXP: number;
-  level: number;
-  achievements: string[];
-  studyStreak: number;
-  lastStudyDate: string | null;
+export interface QuizResult {
+  id: string;
+  moduleId: string;
+  score: number;
+  totalQuestions: number;
+  timeSpent: number;
+  completedAt: Date;
+  incorrectQuestions: string[];
 }
 
-interface AppState {
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    avatar?: string;
-  } | null;
-  progress: UserProgress;
+export interface StudyProgressEntry {
+  progress: number;
+  topicsCompleted: string[];
+}
+
+export interface UserStats {
+  studyStreak: number;
+  averageQuizScore: number;
+  totalTimeSpent: number;
+  achievementsUnlocked: number;
+}
+
+export interface AppState {
+  userName: string;
+  userAvatar: string;
+  userLevel: number;
+  userXP: number;
+  userStats: UserStats;
+  studyProgress: Record<string, StudyProgressEntry>;
+  quizResults: QuizResult[];
+  achievements: string[];
+  currentModule: string | null;
+  currentTopic: string | null;
+  lastStudyDate: string | null;
   preferences: {
     soundEnabled: boolean;
     hapticEnabled: boolean;
@@ -27,36 +42,42 @@ interface AppState {
     theme: 'dark' | 'light';
     difficulty: 'beginner' | 'intermediate' | 'advanced';
   };
-  
-  // Actions
-  setUser: (user: AppState['user']) => void;
-  updateProgress: (updates: Partial<UserProgress>) => void;
-  addCompletedModule: (moduleId: string) => void;
-  addCompletedTopic: (topicId: string) => void;
-  updateQuizScore: (quizId: string, score: number) => void;
+
+  setUserName: (name: string) => void;
+  setUserAvatar: (avatar: string) => void;
+  addQuizResult: (result: QuizResult) => void;
+  updateProgress: (moduleId: string, updates: Partial<StudyProgressEntry>) => void;
   addXP: (amount: number) => void;
   unlockAchievement: (achievementId: string) => void;
   updateStudyStreak: () => void;
+  startSession: () => void;
+  setCurrentModule: (moduleId: string | null) => void;
+  setCurrentTopic: (topicId: string | null) => void;
   updatePreferences: (updates: Partial<AppState['preferences']>) => void;
   resetProgress: () => void;
 }
 
-const initialProgress: UserProgress = {
-  completedModules: [],
-  completedTopics: [],
-  quizScores: {},
-  totalXP: 0,
-  level: 1,
-  achievements: [],
+const initialStats: UserStats = {
   studyStreak: 0,
-  lastStudyDate: null,
+  averageQuizScore: 0,
+  totalTimeSpent: 0,
+  achievementsUnlocked: 0,
 };
 
 export const useAppStore = create<AppState>()(
   persist(
     (set, get) => ({
-      user: null,
-      progress: initialProgress,
+      userName: '',
+      userAvatar: '👩‍⚕️',
+      userLevel: 1,
+      userXP: 0,
+      userStats: initialStats,
+      studyProgress: {},
+      quizResults: [],
+      achievements: [],
+      currentModule: null,
+      currentTopic: null,
+      lastStudyDate: null,
       preferences: {
         soundEnabled: true,
         hapticEnabled: true,
@@ -64,105 +85,107 @@ export const useAppStore = create<AppState>()(
         theme: 'dark',
         difficulty: 'intermediate',
       },
-      
-      setUser: (user) => set({ user }),
-      
-      updateProgress: (updates) => 
-        set((state) => ({
-          progress: { ...state.progress, ...updates },
-        })),
-      
-      addCompletedModule: (moduleId) =>
-        set((state) => ({
-          progress: {
-            ...state.progress,
-            completedModules: [...new Set([...state.progress.completedModules, moduleId])],
-          },
-        })),
-      
-      addCompletedTopic: (topicId) =>
-        set((state) => ({
-          progress: {
-            ...state.progress,
-            completedTopics: [...new Set([...state.progress.completedTopics, topicId])],
-          },
-        })),
-      
-      updateQuizScore: (quizId, score) =>
-        set((state) => ({
-          progress: {
-            ...state.progress,
-            quizScores: { ...state.progress.quizScores, [quizId]: score },
-          },
-        })),
-      
-      addXP: (amount) =>
+
+      setUserName: (name) => set({ userName: name }),
+      setUserAvatar: (avatar) => set({ userAvatar: avatar }),
+
+      addQuizResult: (result) =>
         set((state) => {
-          const newXP = state.progress.totalXP + amount;
-          const newLevel = Math.floor(newXP / 1000) + 1;
-          
+          const results = [...state.quizResults, result];
+          const avg =
+            results.reduce((acc, r) => acc + r.score, 0) / results.length;
           return {
-            progress: {
-              ...state.progress,
-              totalXP: newXP,
-              level: newLevel,
-            },
+            quizResults: results,
+            userStats: { ...state.userStats, averageQuizScore: avg },
           };
         }),
-      
-      unlockAchievement: (achievementId) =>
+
+      updateProgress: (moduleId, updates) =>
         set((state) => ({
-          progress: {
-            ...state.progress,
-            achievements: [...new Set([...state.progress.achievements, achievementId])],
+          studyProgress: {
+            ...state.studyProgress,
+            [moduleId]: {
+              progress:
+                updates.progress ?? state.studyProgress[moduleId]?.progress ?? 0,
+              topicsCompleted:
+                updates.topicsCompleted ??
+                state.studyProgress[moduleId]?.topicsCompleted ?? [],
+            },
           },
         })),
-      
+
+      addXP: (amount) =>
+        set((state) => {
+          const newXP = state.userXP + amount;
+          const newLevel = Math.floor(newXP / 1000) + 1;
+          return { userXP: newXP, userLevel: newLevel };
+        }),
+
+      unlockAchievement: (achievementId) =>
+        set((state) => ({
+          achievements: Array.from(new Set([...state.achievements, achievementId])),
+          userStats: {
+            ...state.userStats,
+            achievementsUnlocked: state.userStats.achievementsUnlocked + 1,
+          },
+        })),
+
       updateStudyStreak: () =>
         set((state) => {
           const today = new Date().toDateString();
-          const lastStudy = state.progress.lastStudyDate;
-          
+          const lastStudy = state.lastStudyDate;
+
           if (!lastStudy) {
             return {
-              progress: {
-                ...state.progress,
-                studyStreak: 1,
-                lastStudyDate: today,
-              },
+              userStats: { ...state.userStats, studyStreak: 1 },
+              lastStudyDate: today,
             };
           }
-          
+
           const lastDate = new Date(lastStudy);
-          const dayDiff = Math.floor((new Date().getTime() - lastDate.getTime()) / (1000 * 60 * 60 * 24));
-          
-          if (dayDiff === 0) {
-            return state; // Already studied today
-          } else if (dayDiff === 1) {
+          const diff = Math.floor(
+            (new Date().getTime() - lastDate.getTime()) / (1000 * 60 * 60 * 24)
+          );
+
+          if (diff === 0) {
+            return state;
+          } else if (diff === 1) {
             return {
-              progress: {
-                ...state.progress,
-                studyStreak: state.progress.studyStreak + 1,
-                lastStudyDate: today,
+              userStats: {
+                ...state.userStats,
+                studyStreak: state.userStats.studyStreak + 1,
               },
+              lastStudyDate: today,
             };
           } else {
             return {
-              progress: {
-                ...state.progress,
-                studyStreak: 1,
-                lastStudyDate: today,
-              },
+              userStats: { ...state.userStats, studyStreak: 1 },
+              lastStudyDate: today,
             };
           }
         }),
-      
+
+      startSession: () => {
+        get().updateStudyStreak();
+      },
+
+      setCurrentModule: (moduleId) => set({ currentModule: moduleId }),
+      setCurrentTopic: (topicId) => set({ currentTopic: topicId }),
+
       updatePreferences: (updates) =>
         set((state) => ({
           preferences: { ...state.preferences, ...updates },
         })),
-      
-      resetProgress: () => set({ progress: initialProgress }),
+
+      resetProgress: () =>
+        set({
+          userXP: 0,
+          userLevel: 1,
+          studyProgress: {},
+          quizResults: [],
+          achievements: [],
+          userStats: initialStats,
+        }),
     }),
     {
       name: 'ob-exam-review-storage',
