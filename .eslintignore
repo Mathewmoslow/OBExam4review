@@ -1,0 +1,12 @@
+# .eslintignore
+node_modules
+.next
+out
+build
+coverage
+.vercel
+public/sounds
+public/models
+public/fonts
+*.min.js
+*.config.js
