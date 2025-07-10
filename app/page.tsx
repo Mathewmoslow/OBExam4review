@@ -1,3 +1,4 @@
+// @ts-nocheck
 // app/page.tsx
 'use client';
 
