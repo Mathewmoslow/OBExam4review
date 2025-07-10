@@ -1,4 +1,3 @@
-
 @ts-nocheck
 
 // components/AchievementNotification.tsx
