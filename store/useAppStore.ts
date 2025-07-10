@@ -22,6 +22,7 @@ interface AppState {
   progress: UserProgress;
   preferences: {
     soundEnabled: boolean;
+    hapticEnabled: boolean;
     notificationsEnabled: boolean;
     theme: 'dark' | 'light';
     difficulty: 'beginner' | 'intermediate' | 'advanced';
@@ -58,6 +59,7 @@ export const useAppStore = create<AppState>()(
       progress: initialProgress,
       preferences: {
         soundEnabled: true,
+        hapticEnabled: true,
         notificationsEnabled: true,
         theme: 'dark',
         difficulty: 'intermediate',

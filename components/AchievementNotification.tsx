@@ -132,7 +132,8 @@ interface Props {
 }
 
 export default function AchievementNotification({ achievementId, onClose }: Props) {
-  const { achievements, soundEnabled } = useAppStore();
+  const achievements = useAppStore(state => state.progress.achievements);
+  const soundEnabled = useAppStore(state => state.preferences.soundEnabled);
   const achievement = achievements.find(a => a.id === achievementId);
   
   useEffect(() => {

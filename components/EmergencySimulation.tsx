@@ -299,7 +299,8 @@ interface Props {
 }
 
 export default function EmergencySimulation({ scenario, onComplete }: Props) {
-  const { soundEnabled, hapticEnabled } = useAppStore();
+  const soundEnabled = useAppStore(state => state.preferences.soundEnabled);
+  const hapticEnabled = useAppStore(state => state.preferences.hapticEnabled);
   const [timeRemaining, setTimeRemaining] = useState(scenario.timeLimit);
   const [currentDecision, setCurrentDecision] = useState(scenario.decisions[0]);
   const [vitals, setVitals] = useState(scenario.initialVitals);

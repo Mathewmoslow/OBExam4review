@@ -18,6 +18,8 @@
     "@radix-ui/react-tabs": "^1.1.12",
     "@radix-ui/react-toast": "^1.2.14",
     "@radix-ui/react-tooltip": "^1.2.7",
+    "@react-three/drei": "^9.86.7",
+    "@react-three/fiber": "^9.0.0",
     "canvas-confetti": "^1.9.3",
     "chart.js": "^4.5.0",
     "d3": "^7.9.0",
