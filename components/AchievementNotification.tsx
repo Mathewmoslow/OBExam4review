@@ -1,4 +1,6 @@
-// @ts-nocheck
+
+@ts-nocheck
+
 // components/AchievementNotification.tsx
 'use client';
 
