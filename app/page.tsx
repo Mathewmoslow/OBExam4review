@@ -17,7 +17,6 @@ import {
   Play,
   ChevronRight,
   Star,
-  TrendingUp,
   Shield,
   Clock
 } from 'lucide-react';

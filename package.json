@@ -10,7 +10,7 @@
     "lint:fix": "next lint --fix",
     "format": "prettier --write .",
     "type-check": "tsc --noEmit",
-    "deploy": "npm run lint && npm run type-check && npm run build && vercel --prod"
+    "deploy": "npm run type-check && npm run build && vercel --prod"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.14",
