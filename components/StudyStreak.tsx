@@ -4,7 +4,7 @@
 
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { Fire } from 'lucide-react';
+import { Flame } from 'lucide-react';
 
 const Container = styled.div`
   position: relative;
@@ -62,7 +62,7 @@ export default function StudyStreak({ streak, size = 24, showBadge = true }: Pro
           ease: "easeInOut",
         }}
       >
-        <Fire size={size} fill={intensity > 0 ? 'currentColor' : 'none'} />
+        <Flame size={size} fill={intensity > 0 ? 'currentColor' : 'none'} />
       </FireIcon>
       
       {showBadge && streak > 0 && (

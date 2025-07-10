@@ -1,7 +1,7 @@
 // components/EmergencySimulation.tsx
 // @ts-nocheck
 'use client';
-<reference types="@react-three/fiber" />
+
 
 import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
