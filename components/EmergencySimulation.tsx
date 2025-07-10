@@ -7,7 +7,7 @@ import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Canvas } from '@react-three/fiber';
-import { PerspectiveCamera } from '@react-three/fiber';
+
 import { OrbitControls } from '@react-three/drei';
 import { Environment } from '@react-three/drei';
 import { Text3D } from '@react-three/drei';
@@ -440,7 +440,7 @@ export default function EmergencySimulation({ scenario, onComplete }: Props) {
     <Container>
       <SceneCanvas>
         <Canvas>
-          <PerspectiveCamera makeDefault position={[0, 2, 8]} />
+          <perspectivecamera makeDefault position={[0, 2, 8]} />
           <OrbitControls 
             enablePan={false}
             maxPolarAngle={Math.PI / 2}

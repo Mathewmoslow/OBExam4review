@@ -15,7 +15,7 @@ import {
   Zap,
   Calendar,
   ChevronRight,
-  Fire,
+  Flame,
   Star,
   Award
 } from 'lucide-react';
@@ -25,6 +25,7 @@ import ProgressRing from '@/components/ProgressRing';
 import AchievementNotification from '@/components/AchievementNotification';
 import StudyStreak from '@/components/StudyStreak';
 import { modules } from '@/data/studyData';
+
 
 const Container = styled.div`
   min-height: 100vh;
@@ -438,7 +439,7 @@ export default function DashboardPage() {
           >
             <StatHeader>
               <StatIcon>
-                <Fire />
+                <Flame />
               </StatIcon>
               <StudyStreak streak={userStats.studyStreak} />
             </StatHeader>
