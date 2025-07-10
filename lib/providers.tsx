@@ -3,7 +3,7 @@
 import { ReactNode } from 'react';
 import { ThemeProvider } from 'styled-components';
 import StyledComponentsRegistry from '@/lib/registry';
-import { GlobalStyles, theme } from '@/lib/styles';
+import { GlobalStyles, theme } from '@/lib/theme';
 import { Toaster } from 'react-hot-toast';
 
 export function Providers({ children }: { children: ReactNode }) {

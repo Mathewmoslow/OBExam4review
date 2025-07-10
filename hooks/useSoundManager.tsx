@@ -89,7 +89,7 @@ const soundConfig: SoundConfig = {
 };
 
 export function useSoundManager() {
-  const { soundEnabled } = useAppStore();
+  const soundEnabled = useAppStore(state => state.preferences.soundEnabled);
   const sounds = useRef<{ [key: string]: Howl }>({});
   const currentMusic = useRef<Howl | null>(null);
   
