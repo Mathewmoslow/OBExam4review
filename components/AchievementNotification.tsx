@@ -127,18 +127,21 @@ const Points = styled.div`
   }
 `;
 
+import { achievements as achievementCatalog } from '../data/studyData';
+
 interface Props {
   achievementId: string;
   onClose: () => void;
 }
 
 export default function AchievementNotification({ achievementId, onClose }: Props) {
-  const achievements = useAppStore(state => state.progress.achievements);
+  const unlockedAchievementIds = useAppStore(state => state.achievements);
   const soundEnabled = useAppStore(state => state.preferences.soundEnabled);
-  const achievement = achievements.find(a => a.id === achievementId);
+  const achievement = achievementCatalog.find(a => a.id === achievementId);
+  const isUnlocked = unlockedAchievementIds.includes(achievementId);
   
   useEffect(() => {
-    if (!achievement) return;
+    if (!achievement || !isUnlocked) return;
     
     // Play sound effect
     if (soundEnabled) {
@@ -182,9 +185,9 @@ export default function AchievementNotification({ achievementId, onClose }: Prop
     }, 250);
     
     return () => clearInterval(interval);
-  }, [achievement, soundEnabled]);
+  }, [achievement, isUnlocked, soundEnabled]);
   
-  if (!achievement) return null;
+  if (!achievement || !isUnlocked) return null;
   
   return (
     <AnimatePresence>
@@ -234,12 +237,12 @@ export default function AchievementNotification({ achievementId, onClose }: Prop
             <span className="gradient">Achievement Unlocked!</span>
           </Title>
           
-          <AchievementName>{achievement.name}</AchievementName>
+          <AchievementName>{achievement.title}</AchievementName>
           
           <Description>{achievement.description}</Description>
           
           <Points>
-            +<span>{achievement.points}</span> XP
+            +<span>{achievement.xp}</span> XP
           </Points>
         </NotificationCard>
       </Overlay>
